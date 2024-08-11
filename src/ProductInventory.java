@@ -35,9 +35,22 @@ public class ProductInventory {
      */
     Map<Integer, String> findProductNames() {
         // TODO: replace stub implementation
+        if (productUtility == null) {
+            throw new IllegalArgumentException("productUtility is null");
+        }
+        if (productIDs == null) {
+            throw new IllegalArgumentException("productID is null");
+        }
         Map<Integer, String> stubMap = new HashMap<Integer, String>();
         for (Integer productID : productIDs) {
-            stubMap.put(productID, "");
+            try {
+                String productName = productUtility.findProductName(productID);
+                if (productName != null) {
+                    stubMap.put(productID, productName);
+                }
+            } catch (Exception e) {
+                throw new IllegalArgumentException("productID is null");
+            }
         }
         return stubMap;
     }
@@ -49,7 +62,16 @@ public class ProductInventory {
      */
     Optional<Boolean> isProductReady(Integer productID) {
         // TODO: replace stub implementation
-        Boolean stubResult = productUtility.isProductReady(0);
-        return Optional.of(stubResult);
+        Boolean stubResult;
+        try {
+            stubResult = productUtility.isProductReady(productID);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("The productID was null");
+        }
+        if (stubResult == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(stubResult);
+        }
     }
 }
